@@ -16,4 +16,13 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.on('/').render('welcome')
+Route.group('practica', () =>{
+    Route.post('user/login', 'UserController.login')
+    Route.resource('user', 'Usercontroller').middleware(['auth'])
+    // GET: index
+  // GET/:id: show
+  // POST: store
+  // PUT/:id: update
+  // DELTE/:id: destroy
+
+}).prefix('practica/1')
