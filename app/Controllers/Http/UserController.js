@@ -9,7 +9,7 @@
  */
 const User = use('App/Models/User')
 const {validate} = use ('Validator')
-const hash = use ('Hash')
+const Hash = use ('Hash')
 
 
 class UserController {
@@ -71,11 +71,11 @@ class UserController {
    */
   async store ({ request, response }) {
     const rules = {
-      dni: 'required|unique:users|min:8|max:8',
+      dni: 'required|unique:user|min:8|max:8',
       password: 'required',
       name: 'required',
       last_name: 'required',
-      email: 'required|unique:users'
+      email: 'required|unique:user'
     }
     const message = {
       'dni.required' : 'El DNI es obligatorio',
@@ -91,7 +91,7 @@ class UserController {
     if (validation.fails()){
       return response.status(402).json({
         message: 'Error al enviar la informacion',
-        validation:validation.messages()[0]
+        validation:validation.messages()[0],
       })
     }
     const {dni, password, name, last_name} = request.body
@@ -102,7 +102,7 @@ class UserController {
     user.last_name = last_name
     user.email = email
     await user.save()
-    return response.status(200).json({
+    return response.status(201).json({
       message: 'Usuario Registrado',
       user
     })

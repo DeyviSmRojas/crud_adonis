@@ -18,7 +18,8 @@ const Route = use('Route')
 
 Route.group('practica', () =>{
     Route.post('user/login', 'UserController.login')
-    Route.resource('user', 'Usercontroller').middleware(['auth'])
+    Route.resource('user', 'UserController')
+    // .middleware(['auth'])
     // GET: index
   // GET/:id: show
   // POST: store
