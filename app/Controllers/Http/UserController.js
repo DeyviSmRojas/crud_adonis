@@ -71,11 +71,11 @@ class UserController {
    */
   async store ({ request, response }) {
     const rules = {
-      dni: 'required|unique:user|min:8|max:8',
+      dni: 'required|unique:users|min:8|max:8', //|min:8|max:8
       password: 'required',
       name: 'required',
       last_name: 'required',
-      email: 'required|unique:user'
+      email: 'required|unique:users',
     }
     const message = {
       'dni.required' : 'El DNI es obligatorio',
@@ -85,16 +85,16 @@ class UserController {
       'password.required' : 'El password es obligatorio',
       'name.required' : 'Tiene que ingresar el Nombre',
       'last_name.required' : 'Tiene que ingresar el Apellido',
-      'email.required' : 'Tienes que ingresar el email'
+      'email.required' : 'Tienes que ingresar el email',
     }
-    const validation = await validate(request.all(), rules, message)
+    const validation = await validate(request.body, rules, message)
     if (validation.fails()){
       return response.status(402).json({
-        message: 'Error al enviar la informacion',
+        message: 'Error al enviar la informacionsss',
         validation:validation.messages()[0],
       })
     }
-    const {dni, password, name, last_name} = request.body
+    const {dni, password, name, last_name, email} = request.body
     const user = new User ()
     user.dni = dni
     user.password = password
