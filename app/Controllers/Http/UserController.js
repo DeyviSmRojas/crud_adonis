@@ -198,6 +198,18 @@ class UserController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const {id} = params
+    const user = await User.find(id)
+    if(!user){
+    return response.status(400).json({
+      message: 'El usuario con el ID seleccinado no existe'
+    })
+  }
+  user.delete()
+  return response.status(200).json({
+    message: 'Usuario eliminado satisfactoriamente',
+    user
+  })
   }
 }
 
