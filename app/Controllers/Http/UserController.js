@@ -47,6 +47,24 @@ class UserController {
   }
 
   async index ({ request, response, view }) {
+    const {type} = request.get()
+    let userQuery = User.query()
+    if(type === 'A'){
+      userQuery = userQuery.withTrashed()
+    }else if (type === 'O'){
+      userQuery = userQuery.onlyTrashed()
+    }
+    const {rows: users} = await userQuery.fetch()
+    if (!users || users.length <=0){
+      return response.status(400).json({
+        message: 'No se ha obtenido usuarios registrados'
+      })
+    }
+    return response.status(200).json({
+      message: 'Usuarios registrados obtenidos',
+      users: users,
+      type
+    })
   }
 
   /**
