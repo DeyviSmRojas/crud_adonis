@@ -135,7 +135,7 @@ class UserController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show ({ params, response, view }) {
     const {id} = params
     const user  = await User.find(id)
     if(!user){
@@ -170,6 +170,23 @@ class UserController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const {id} = params
+    const user = await User.find(id)
+    if(!user){
+      return response.status(400).json({
+        message: 'El usuario obtenido con el ID {id} no existe'
+      })
+    }
+    const {dni, name, last_name, email} = request.body
+    user.dni = dni,
+    user.name = name,
+    user.last_name = last_name,
+    user.email = email
+    user.save()
+    return response.status(200).json({
+      message: 'Usuario Actualizado',
+      user
+    })
   }
 
   /**
