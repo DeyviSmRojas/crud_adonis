@@ -136,6 +136,17 @@ class UserController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    const {id} = params
+    const user  = await User.find(id)
+    if(!user){
+      return response.status(400).json({
+        message: 'Usuario obenido no existe'
+      })
+    }
+    return response.status(200).json({
+      message: 'Usuario obtenido',
+      user
+    })
   }
 
   /**
